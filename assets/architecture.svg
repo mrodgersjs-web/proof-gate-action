@@ -1,0 +1,91 @@
+<svg width="1200" height="400" viewBox="0 0 1200 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .kicker{font-family:'JetBrains Mono',monospace;font-size:11px;fill:#C8A96E;letter-spacing:3px;text-transform:uppercase}
+      .title{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:27px;fill:#F5F0EB}
+      .label{font-family:'Hanken Grotesk','Helvetica Neue',sans-serif;font-size:12px;fill:#A09890;letter-spacing:0.5px}
+      .label-hi{font-family:'Hanken Grotesk','Helvetica Neue',sans-serif;font-size:13px;fill:#0A0806;letter-spacing:1px;font-weight:600}
+      .mono{font-family:'JetBrains Mono','SF Mono',monospace;font-size:11px;fill:#A09890}
+      .mono-gold{font-family:'JetBrains Mono','SF Mono',monospace;font-size:12px;fill:#C8A96E}
+      .caption{font-family:'JetBrains Mono',monospace;font-size:10px;fill:#635D57;letter-spacing:2px;text-transform:uppercase}
+    </style>
+    <linearGradient id="goldFade" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#C8A96E" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#C8A96E" stop-opacity="0.85"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#C8A96E" stop-opacity="0.65"/>
+      <stop offset="100%" stop-color="#C8A96E" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="ambient" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#181310" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#0A0806" stop-opacity="1"/>
+    </radialGradient>
+    <filter id="softGlow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="8" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#C8A96E"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="400" fill="url(#ambient)"/>
+
+  <text x="60" y="48" class="kicker">CI / CD</text>
+  <text x="60" y="78" class="title">Proof gate as a required check</text>
+
+  <!-- input -->
+  <text x="60" y="150" class="mono-gold">PR #482</text>
+  <text x="60" y="167" class="label">opened against main</text>
+  <path d="M120,152 H172" stroke="#C8A96E" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- pipeline chips -->
+  <!-- checkout -->
+  <rect x="172" y="130" width="130" height="46" rx="8" fill="#141210" stroke="#A09890" stroke-width="1.5" opacity="0.85"/>
+  <text x="237" y="158" text-anchor="middle" class="label">CHECKOUT</text>
+  <path d="M302,153 H344" stroke="#A09890" stroke-width="1.5" marker-end="url(#arrow)" opacity="0.6"/>
+
+  <!-- build -->
+  <rect x="344" y="130" width="130" height="46" rx="8" fill="#141210" stroke="#A09890" stroke-width="1.5" opacity="0.85"/>
+  <text x="409" y="158" text-anchor="middle" class="label">BUILD</text>
+  <path d="M474,153 H516" stroke="#A09890" stroke-width="1.5" marker-end="url(#arrow)" opacity="0.6"/>
+
+  <!-- test -->
+  <rect x="516" y="130" width="130" height="46" rx="8" fill="#141210" stroke="#A09890" stroke-width="1.5" opacity="0.85"/>
+  <text x="581" y="158" text-anchor="middle" class="label">TEST</text>
+  <path d="M646,153 C680,153 690,204 730,204" stroke="url(#goldFade)" stroke-width="2.4" marker-end="url(#arrow)"/>
+
+  <!-- PROOF GATE — hero node -->
+  <g transform="translate(870,204)">
+    <ellipse rx="130" ry="60" fill="url(#glow)" opacity="0.7"/>
+    <rect x="-140" y="-42" width="280" height="84" rx="10" fill="#C8A96E" filter="url(#softGlow)"/>
+    <text y="-8" text-anchor="middle" class="label-hi">PROOF GATE</text>
+    <text y="14" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11" fill="#3A2E1A">verify · sha256 · hmac · policy</text>
+    <text y="34" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="10" fill="#4A3B22" letter-spacing="1.5">REQUIRED CHECK</text>
+  </g>
+
+  <path d="M1010,204 C1050,204 1060,155 1100,155" stroke="url(#goldFade)" stroke-width="2.4" marker-end="url(#arrow)"/>
+
+  <!-- deploy -->
+  <g transform="translate(1100,155)">
+    <circle r="38" fill="url(#glow)" opacity="0.5"/>
+    <circle r="26" fill="#141210" stroke="#C8A96E" stroke-width="2"/>
+    <path d="M-8,0 L-1,7 L9,-8" fill="none" stroke="#C8A96E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <text x="1100" y="118" text-anchor="middle" class="label">MERGE</text>
+  <text x="1100" y="205" text-anchor="middle" class="mono-gold">allowed</text>
+
+  <!-- reject branch -->
+  <path d="M870,246 C870,290 950,300 1000,300" stroke="#C17767" stroke-width="2" stroke-dasharray="3 4" marker-end="url(#arrow)" opacity="0.8"/>
+  <g transform="translate(1040,300)">
+    <circle r="24" fill="#C17767" opacity="0.12"/>
+    <circle r="18" fill="none" stroke="#C17767" stroke-width="2"/>
+    <line x1="-6" y1="-6" x2="6" y2="6" stroke="#C17767" stroke-width="2" stroke-linecap="round"/>
+    <line x1="6" y1="-6" x2="-6" y2="6" stroke="#C17767" stroke-width="2" stroke-linecap="round"/>
+  </g>
+  <text x="1040" y="336" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="10" fill="#C17767" letter-spacing="1">BLOCKED</text>
+
+  <line x1="60" y1="358" x2="1140" y2="358" stroke="#A09890" stroke-width="1" opacity="0.15"/>
+  <text x="60" y="380" class="caption">no proof, no merge — every build time</text>
+</svg>
