@@ -1,0 +1,30 @@
+name: 'Proof Gate Action'
+description: 'Verify ProofPacket signed completion artifacts in CI and catch AI agents that lie about done.'
+author: 'Mike Rodgers <mrodgersjs>'
+branding:
+  icon: 'shield'
+  color: 'green'
+
+inputs:
+  proofpacket-path:
+    description: 'Path to the proofpacket.json file to verify.'
+    required: false
+    default: 'proofpacket.json'
+  fail-on-missing:
+    description: 'Whether the action should fail if the proofpacket file is missing.'
+    required: false
+    default: 'true'
+  secret-key:
+    description: 'Shared secret used to recompute the HMAC-SHA256 signature.'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Verify ProofPacket
+      shell: bash
+      env:
+        INPUT_PROOFPACKET_PATH: ${{ inputs.proofpacket-path }}
+        INPUT_FAIL_ON_MISSING: ${{ inputs.fail-on-missing }}
+        INPUT_SECRET_KEY: ${{ inputs.secret-key }}
+      run: node ${{ github.action_path }}/verify.js

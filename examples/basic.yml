@@ -1,0 +1,41 @@
+name: CI with Proof Gate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build and sign ProofPacket
+        env:
+          PROOF_GATE_SECRET: ${{ secrets.PROOF_GATE_SECRET }}
+        run: |
+          # Example: run your build, then produce a signed ProofPacket.
+          # Replace these values with real build outputs.
+          ARTIFACT_HASH=$(git rev-parse HEAD)
+          STATUS="BUILD COMPLETE"
+          TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          SIGNATURE=$(printf '%s' "${ARTIFACT_HASH}${STATUS}${TIMESTAMP}" | openssl dgst -sha256 -hmac "${PROOF_GATE_SECRET}" | sed 's/^.* //')
+
+          cat > proofpacket.json <<EOF
+          {
+            "artifact_hash": "${ARTIFACT_HASH}",
+            "claimed_status": "${STATUS}",
+            "signature": "${SIGNATURE}",
+            "timestamp": "${TIMESTAMP}"
+          }
+          EOF
+
+      - name: Proof Gate
+        uses: mrodgersjs-web/proof-gate-action@v1
+        with:
+          proofpacket-path: 'proofpacket.json'
+          fail-on-missing: 'true'
+          secret-key: ${{ secrets.PROOF_GATE_SECRET }}
