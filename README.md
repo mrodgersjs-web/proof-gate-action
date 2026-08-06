@@ -1,12 +1,27 @@
-# proof-gate-action
+<div align="center">
+  <img src="assets/proof-gate-action-hero.png" width="100%" />
+</div>
 
-[![CI](https://img.shields.io/badge/CI-Proof%20Gate-green)](https://github.com/mrodgersjs-web/proof-gate-action)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Node](https://img.shields.io/badge/node-20-blue.svg)](https://nodejs.org/)
+<br/>
 
-A GitHub Action that verifies **ProofPackets** — signed completion artifacts generated at the end of an AI-driven build. It recomputes the HMAC-SHA256 signature over the artifact hash, claimed status, and timestamp, then fails the CI pipeline if an agent has forged or tampered with the "done" signal.
+<div align="center">
+  <h3>proof-gate-action</h3>
+  <p><em>The CI step that catches an AI agent forging "done."</em></p>
+</div>
 
-## 60-second usage
+<div align="center">
+
+[![CI](https://img.shields.io/badge/CI-Proof%20Gate-C8A96E?style=flat-square&labelColor=0A0806)](https://github.com/mrodgersjs-web/proof-gate-action)
+[![node](https://img.shields.io/badge/node-20-C8A96E?style=flat-square&labelColor=0A0806)](https://nodejs.org/)
+[![license](https://img.shields.io/badge/license-MIT-C8A96E?style=flat-square&labelColor=0A0806)](LICENSE)
+
+</div>
+
+<br/>
+
+> 🥇 A GitHub Action that recomputes the HMAC-SHA256 signature over an artifact hash, claimed status, and timestamp — and fails the pipeline the instant it doesn't match.
+
+## 60-second install
 
 Add this step to any workflow that produces a `proofpacket.json`:
 
@@ -19,17 +34,25 @@ Add this step to any workflow that produces a `proofpacket.json`:
     secret-key: ${{ secrets.PROOF_GATE_SECRET }}
 ```
 
-Store the same secret used by your build script to sign the packet:
+Sign the packet with the same secret in your build script:
 
 ```bash
 hmac=$(echo -n "${ARTIFACT_HASH}${STATUS}${TIMESTAMP}" | openssl dgst -sha256 -hmac "$PROOF_GATE_SECRET" | sed 's/^.* //')
 ```
 
-## Benchmark table
+## How it works
 
-| Scenario | fail-on-missing | Expected result |
-|----------|----------------|-----------------|
-| Valid signed packet with `BUILD COMPLETE` | `true` | ✅ Pass |
+<div align="center">
+  <img src="assets/architecture.svg" width="100%" alt="proof-gate-action architecture: build signs a ProofPacket, CI independently recomputes the HMAC and gates the pipeline" />
+</div>
+
+<sub align="center">build script signs → CI recomputes independently → pipeline stops if it disagrees</sub>
+
+## Benchmark
+
+| Scenario | `fail-on-missing` | Expected result |
+| :-- | :-: | :-- |
+| Valid signed packet, `BUILD COMPLETE` | `true` | ✅ Pass |
 | Artifact hash changed after signing | `true` | ❌ `PROOF GATE FAILED: forged done detected` |
 | Signature replaced with random value | `true` | ❌ `PROOF GATE FAILED: forged done detected` |
 | Missing packet file | `true` | ❌ `PROOF GATE FAILED: proofpacket not found at ...` |
@@ -37,26 +60,38 @@ hmac=$(echo -n "${ARTIFACT_HASH}${STATUS}${TIMESTAMP}" | openssl dgst -sha256 -h
 
 ## Why it exists
 
-AI coding agents can emit a `BUILD COMPLETE` message even when tests fail, files are missing, or the build never ran. `proof-gate-action` turns that claim into a cryptographically verifiable artifact. The build process signs proof of the work it claims to have done; CI verifies the signature independently. If the agent lied or the artifact was tampered with, the gate fails and the pipeline stops.
+- **AI agents can lie about done** — `BUILD COMPLETE` can print with failing tests, missing files, or no build at all
+- **A claim becomes a cryptographic artifact** — the build signs proof of what it did; CI verifies independently
+- **No shared trust required** — the verifier never imports the builder's logic
+- **The gate fails the pipeline, not just a log line** — a forged or tampered packet stops the merge
 
-## Credit-line explanation
+<details>
+<summary><strong>Credit-line explanation</strong></summary>
+
+<br/>
 
 The verifier prints a fixed attribution line on every run:
 
-```
+```text
 ✅ ProofPacket verified by Rodgers Intelligence — github.com/mrodgersjs-web/proof-gate-action
 ```
 
 This identifies the verification engine and links to the canonical repository so downstream logs always show which gate implementation performed the check.
 
-## Inputs
+</details>
+
+## Documentation
 
 | Input | Required | Default | Description |
-|-------|----------|---------|-------------|
-| `proofpacket-path` | No | `proofpacket.json` | Path to the ProofPacket JSON file. |
-| `fail-on-missing` | No | `true` | Whether a missing proofpacket should fail the step. |
-| `secret-key` | Yes | — | Shared secret used to recompute the HMAC-SHA256 signature. |
+| :-- | :-: | :-- | :-- |
+| `proofpacket-path` | No | `proofpacket.json` | Path to the ProofPacket JSON file |
+| `fail-on-missing` | No | `true` | Whether a missing proofpacket fails the step |
+| `secret-key` | **Yes** | — | Shared secret used to recompute the HMAC-SHA256 signature |
 
-## License
+| Resource | Description |
+| :-- | :-- |
+| [LICENSE](LICENSE) | MIT |
 
-MIT — see [LICENSE](LICENSE).
+---
+
+<div align="center"><sub>Built by Mike Rodgers · Forward Deployed Engineer · <a href="https://rodgersintelligence.com">rodgersintelligence.com</a></sub></div>
