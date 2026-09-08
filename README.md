@@ -11,7 +11,7 @@
 
 <div align="center">
 
-[![CI](https://img.shields.io/badge/CI-Proof%20Gate-C8A96E?style=flat-square&labelColor=0A0806)](https://github.com/mrodgersjs-web/proof-gate-action)
+[![CI](https://img.shields.io/github/actions/workflow/status/mrodgersjs-web/proof-gate-action/smoke.yml?branch=main)](https://github.com/mrodgersjs-web/proof-gate-action/actions/workflows/smoke.yml)
 [![node](https://img.shields.io/badge/node-20-C8A96E?style=flat-square&labelColor=0A0806)](https://nodejs.org/)
 [![license](https://img.shields.io/badge/license-MIT-C8A96E?style=flat-square&labelColor=0A0806)](LICENSE)
 
