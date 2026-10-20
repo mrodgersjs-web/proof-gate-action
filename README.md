@@ -19,7 +19,7 @@
 
 <br/>
 
-> 🥇 A GitHub Action that recomputes the HMAC-SHA256 signature over an artifact hash, claimed status, and timestamp — and fails the pipeline the instant it doesn't match.
+> 🥇 A GitHub Action that recomputes the HMAC-SHA256 signature over an artifact hash, claimed status, and timestamp - and fails the pipeline the instant it doesn't match.
 
 ## 60-second install
 
@@ -60,10 +60,10 @@ hmac=$(echo -n "${ARTIFACT_HASH}${STATUS}${TIMESTAMP}" | openssl dgst -sha256 -h
 
 ## Why it exists
 
-- **AI agents can lie about done** — `BUILD COMPLETE` can print with failing tests, missing files, or no build at all
-- **A claim becomes a cryptographic artifact** — the build signs proof of what it did; CI verifies independently
-- **No shared trust required** — the verifier never imports the builder's logic
-- **The gate fails the pipeline, not just a log line** — a forged or tampered packet stops the merge
+- **AI agents can lie about done** - `BUILD COMPLETE` can print with failing tests, missing files, or no build at all
+- **A claim becomes a cryptographic artifact** - the build signs proof of what it did; CI verifies independently
+- **No shared trust required** - the verifier never imports the builder's logic
+- **The gate fails the pipeline, not just a log line** - a forged or tampered packet stops the merge
 
 <details>
 <summary><strong>Credit-line explanation</strong></summary>
@@ -73,7 +73,7 @@ hmac=$(echo -n "${ARTIFACT_HASH}${STATUS}${TIMESTAMP}" | openssl dgst -sha256 -h
 The verifier prints a fixed attribution line on every run:
 
 ```text
-✅ ProofPacket verified by Rodgers Intelligence — github.com/mrodgersjs-web/proof-gate-action
+✅ ProofPacket verified by Rodgers Intelligence - github.com/mrodgersjs-web/proof-gate-action
 ```
 
 This identifies the verification engine and links to the canonical repository so downstream logs always show which gate implementation performed the check.
@@ -86,7 +86,7 @@ This identifies the verification engine and links to the canonical repository so
 | :-- | :-: | :-- | :-- |
 | `proofpacket-path` | No | `proofpacket.json` | Path to the ProofPacket JSON file |
 | `fail-on-missing` | No | `true` | Whether a missing proofpacket fails the step |
-| `secret-key` | **Yes** | — | Shared secret used to recompute the HMAC-SHA256 signature |
+| `secret-key` | **Yes** | - | Shared secret used to recompute the HMAC-SHA256 signature |
 
 | Resource | Description |
 | :-- | :-- |
