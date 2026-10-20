@@ -1,0 +1,22 @@
+{
+  "name": "proof-gate-action",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Verify ProofPacket signed completion artifacts in CI and catch AI agents that lie about done.",
+  "license": "MIT",
+  "author": "Mike Rodgers <mrodgersjs@gmail.com>",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/verify-native.test.js test/verify.test.js",
+    "test:smoke": "INPUT_PROOFPACKET_PATH=test/fixtures/valid.json INPUT_SECRET_KEY=demo-secret-key node verify.js",
+    "lint": "node --check verify.js && node --check test/verify-native.test.js && node --check test/verify.test.js",
+    "all": "npm run lint && npm test"
+  },
+  "files": [
+    "action.yml",
+    "verify.js",
+    "test/"
+  ]
+}
