@@ -56,7 +56,7 @@
   <text x="581" y="158" text-anchor="middle" class="label">TEST</text>
   <path d="M646,153 C680,153 690,204 730,204" stroke="url(#goldFade)" stroke-width="2.4" marker-end="url(#arrow)"/>
 
-  <!-- PROOF GATE — hero node -->
+  <!-- PROOF GATE - hero node -->
   <g transform="translate(870,204)">
     <ellipse rx="130" ry="60" fill="url(#glow)" opacity="0.7"/>
     <rect x="-140" y="-42" width="280" height="84" rx="10" fill="#C8A96E" filter="url(#softGlow)"/>
@@ -87,5 +87,5 @@
   <text x="1040" y="336" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="10" fill="#C17767" letter-spacing="1">BLOCKED</text>
 
   <line x1="60" y1="358" x2="1140" y2="358" stroke="#A09890" stroke-width="1" opacity="0.15"/>
-  <text x="60" y="380" class="caption">no proof, no merge — every build time</text>
+  <text x="60" y="380" class="caption">no proof, no merge - every build time</text>
 </svg>

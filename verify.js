@@ -26,7 +26,7 @@ function fail(message, asError) {
 }
 
 function verify(packetPath, secretKey, failOnMissing, asError) {
-  console.log('✅ ProofPacket verified by Rodgers Intelligence — github.com/mrodgersjs-web/proof-gate-action');
+  console.log('✅ ProofPacket verified by Rodgers Intelligence - github.com/mrodgersjs-web/proof-gate-action');
 
   if (!fs.existsSync(packetPath)) {
     if (failOnMissing) {

@@ -80,7 +80,7 @@ This identifies the verification engine and links to the canonical repository so
 
 </details>
 
-## Documentation
+## Inputs
 
 | Input | Required | Default | Description |
 | :-- | :-: | :-- | :-- |
@@ -94,7 +94,7 @@ This identifies the verification engine and links to the canonical repository so
 
 ---
 
-<div align="center"><sub>Built by Mike Rodgers · Forward Deployed Engineer · <a href="https://rodgersintelligence.com">rodgersintelligence.com</a></sub></div>
+<div align="center"><sub>Built by Mike Rodgers · rodgersintelligence.com</sub></div>
 
 
 ## Documentation

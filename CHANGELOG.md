@@ -4,6 +4,44 @@ All notable changes are recorded here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1] - 2026-10-19
+
+### Added
+
+- `test/repo-hygiene.test.js`: 4 checks read from the files on disk that
+  `.github/CODEOWNERS` assigns `*` to `@mrodgersjs-web`, that
+  `.github/copilot-instructions.md` is non-empty, at most 8000 bytes and names a
+  test command, that the README carries a `github/actions/workflow/status` badge,
+  the "Built by Mike Rodgers - rodgersintelligence.com" footer, a test command and
+  only clones `mrodgersjs-web/proof-gate-action`, and that every job in every
+  workflow under `.github/workflows/` sets `timeout-minutes` and never sets
+  `continue-on-error: true`.
+- `package-lock.json` so `npm ci` installs cleanly on a fresh checkout.
+
+### Changed
+
+- `.github/copilot-instructions.md` rewritten to 2262 bytes: what the repository
+  is, the layout, the exact commands (`npm ci`, `npm test`, `npm run lint`),
+  conventions (conventional commits, a test for every change, no secrets, no
+  machine paths) and the truth rule that every number in docs comes from a
+  command run in this repository.
+- `.github/workflows/ci.yml` and `.github/workflows/smoke.yml`: `timeout-minutes: 15`
+  on every job, and both run `test/repo-hygiene.test.js` with the rest of the suite.
+  Neither workflow uses `continue-on-error`, and both still run the tests on push to
+  `main`.
+- `package.json`: the `test` and `lint` scripts now cover `test/repo-hygiene.test.js`.
+- `README.md`: the inputs table heading is "Inputs" instead of a second
+  "Documentation" heading, and the footer is the plain literal
+  "Built by Mike Rodgers - rodgersintelligence.com".
+- Em dashes in `verify.js`, `assets/architecture.svg`, `assets/demo.html` and
+  `.gitignore` replaced with hyphens, so the credit line `verify.js` prints matches
+  the line the README documents.
+
+### Verified
+
+- `npm ci` clean install, 0 vulnerabilities; `npm run lint` clean; `npm test` 19 pass,
+  0 fail. No tags created or moved.
+
 ## [1.1.0] - 2026-10-19
 
 ### Added

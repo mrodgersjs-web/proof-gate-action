@@ -7,6 +7,7 @@ permissions:
   contents: read
 jobs:
   test:
+    timeout-minutes: 15
     name: test (node ${{ matrix.node }})
     runs-on: ubuntu-latest
     strategy:
@@ -18,11 +19,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
-      - run: node --test test/verify-native.test.js test/verify.test.js
+      - run: node --test test/verify-native.test.js test/verify.test.js test/repo-hygiene.test.js
       - run: node --check verify.js
       - run: INPUT_PROOFPACKET_PATH=test/fixtures/valid.json INPUT_SECRET_KEY=demo-secret-key node verify.js
 
   self-test:
+    timeout-minutes: 15
     name: self-test (uses ./)
     runs-on: ubuntu-latest
     steps:

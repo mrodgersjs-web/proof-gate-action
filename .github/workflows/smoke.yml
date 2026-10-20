@@ -8,10 +8,11 @@ permissions:
   contents: read
 jobs:
   test:
+    timeout-minutes: 15
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
-      - run: node --test test/verify.test.js test/verify-native.test.js
+      - run: node --test test/verify.test.js test/verify-native.test.js test/repo-hygiene.test.js

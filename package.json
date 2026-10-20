@@ -9,9 +9,9 @@
     "node": ">=20"
   },
   "scripts": {
-    "test": "node --test test/verify-native.test.js test/verify.test.js",
+    "test": "node --test test/verify-native.test.js test/verify.test.js test/repo-hygiene.test.js",
     "test:smoke": "INPUT_PROOFPACKET_PATH=test/fixtures/valid.json INPUT_SECRET_KEY=demo-secret-key node verify.js",
-    "lint": "node --check verify.js && node --check test/verify-native.test.js && node --check test/verify.test.js",
+    "lint": "node --check verify.js && node --check test/verify-native.test.js && node --check test/verify.test.js && node --check test/repo-hygiene.test.js",
     "all": "npm run lint && npm test"
   },
   "files": [
