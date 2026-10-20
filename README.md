@@ -95,3 +95,23 @@ This identifies the verification engine and links to the canonical repository so
 ---
 
 <div align="center"><sub>Built by Mike Rodgers · Forward Deployed Engineer · <a href="https://rodgersintelligence.com">rodgersintelligence.com</a></sub></div>
+
+
+## Documentation
+
+- [docs/architecture.md](docs/architecture.md) - Packet shape, HMAC input contract, failure modes
+- [examples/basic.yml](examples/basic.yml) - Outside-user end-to-end example
+- [SECURITY.md](SECURITY.md) - Reporting and supported versions
+- [CONTRIBUTING.md](CONTRIBUTING.md) - Local setup and change protocol
+- [CHANGELOG.md](CHANGELOG.md) - Release notes
+- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) - Contributor Covenant v2.1
+
+## Development
+
+```bash
+git clone https://github.com/mrodgersjs-web/proof-gate-action
+cd proof-gate-action
+node --test test/verify.test.js test/verify-native.test.js
+```
+
+Node 20 or 22. The Action has no runtime dependencies.
