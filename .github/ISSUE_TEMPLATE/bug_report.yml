@@ -1,0 +1,41 @@
+name: Bug report
+description: Report unexpected behaviour in the proof-gate-action verifier.
+labels: ["bug"]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Action version / commit SHA
+      placeholder: e.g. v1.0.0 or 4b8c273
+    validations:
+      required: true
+  - type: textarea
+    id: workflow
+    attributes:
+      label: Workflow snippet
+      render: yaml
+      placeholder: |
+        - uses: mrodgersjs-web/proof-gate-action@v1
+          with:
+            proofpacket-path: proofpacket.json
+            secret-key: ${{ secrets.PROOF_GATE_SECRET }}
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behaviour
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Reproduction steps
+    validations:
+      required: true

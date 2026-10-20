@@ -1,0 +1,26 @@
+name: Feature request
+description: Suggest a new input, output, or behaviour for the verifier.
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What pain does this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: textarea
+    id: breaking
+    attributes:
+      label: Does this change the action.yml contract?
+      description: If yes, describe the migration path.
