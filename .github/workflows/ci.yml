@@ -1,0 +1,73 @@
+name: CI
+on:
+  push:
+    branches: [main, ghup/**]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  test:
+    name: test (node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ["20", "22"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - run: node --test test/verify-native.test.js test/verify.test.js
+      - run: node --check verify.js
+      - run: INPUT_PROOFPACKET_PATH=test/fixtures/valid.json INPUT_SECRET_KEY=demo-secret-key node verify.js
+
+  self-test:
+    name: self-test (uses ./)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Sign and verify ProofPacket via uses:./
+        env:
+          PROOF_GATE_SECRET: self-test-secret
+        run: |
+          ARTIFACT_HASH="self-test-$(git rev-parse --short HEAD)"
+          STATUS="BUILD COMPLETE"
+          TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          SIGNATURE=$(printf '%s' "${ARTIFACT_HASH}${STATUS}${TIMESTAMP}" | openssl dgst -sha256 -hmac "${PROOF_GATE_SECRET}" | awk '{print $2}')
+          mkdir -p /tmp/self-test
+          cat > /tmp/self-test/proofpacket.json <<EOF
+          {
+            "artifact_hash": "${ARTIFACT_HASH}",
+            "claimed_status": "${STATUS}",
+            "signature": "${SIGNATURE}",
+            "timestamp": "${TIMESTAMP}"
+          }
+          EOF
+          cat > /tmp/self-test/forge.json <<EOF
+          {
+            "artifact_hash": "${ARTIFACT_HASH}",
+            "claimed_status": "FORGED DONE",
+            "signature": "${SIGNATURE}",
+            "timestamp": "${TIMESTAMP}"
+          }
+          EOF
+          echo "=== happy path (should pass) ==="
+          INPUT_PROOFPACKET_PATH=/tmp/self-test/proofpacket.json \
+            INPUT_SECRET_KEY=${PROOF_GATE_SECRET} \
+            node verify.js
+          echo "=== forged status (must fail) ==="
+          set +e
+          INPUT_PROOFPACKET_PATH=/tmp/self-test/forge.json \
+            INPUT_SECRET_KEY=${PROOF_GATE_SECRET} \
+            node verify.js
+          rc=$?
+          set -e
+          if [ "$rc" -eq 0 ]; then
+            echo "FAIL: forged packet was accepted (rc=0)" >&2
+            exit 1
+          fi
+          echo "self-test passed: happy path verified, forged packet rejected"
